@@ -37,5 +37,8 @@
 			"Name": "PixelStreaming",
 			"Enabled": true
 		}
+	],
+	"TargetPlatforms": [
+		"Windows"
 	]
 }

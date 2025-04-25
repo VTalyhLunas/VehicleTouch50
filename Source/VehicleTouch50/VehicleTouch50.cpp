@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) April 2025. Vitaliy Talyh. All rights reserved.
 
 #include "VehicleTouch50.h"
 #include "Modules/ModuleManager.h"
