@@ -1,31 +1,31 @@
-# Demo
+# Demo project
 
-This repository contains the source code of the UE vehicle template project that is shipped and deployed as a demo on every new SPS installation by defult. 
+## Подготовка окружения
 
-When your SPS installation is complete, the project will be ready for users to start spinning up application instances by following the demo application URL.
+О контенеризации Unreal Engine можно почитать в [официальной документации](https://dev.epicgames.com/documentation/en-us/unreal-engine/container-deployments-and-images-for-unreal-editor-and-unreal-engine).
 
-If you have opted not to install the demo during stack creation or deleted the project and want it back, follow the steps below to re-deploy it. Since it is a regular blueprint UE project, the deployment process is the same as it would be for any UE project, which you can follow fully in [our documentation](https://docs.scalablestreaming.io/getting-started).
+Так же, можно воспользоваться уже собранными образами для сборки с детальным описанием процесса сборки [на этом ресурсе](https://github.com/adamrehn/ue4-docker).
 
-## Installing the Unreal Engine
+[Официальная документация](https://dev.epicgames.com/documentation/en-us/unreal-engine/building-unreal-engine-from-source?application_version=5.5) по сборке Unreal Engine
 
-Follow the [official documentation](https://www.unrealengine.com/en-US/download) or access the [official repository](https://github.com/EpicGames) to download and install the Unreal Engine on your chosen platform. The demo project is compatible with UE version 5.0 or newer.
+Доступ к исходным кодам Unreal Engine описан в [официальном репозитории](https://github.com/EpicGames)
 
-## Building the project
+## Информация о Pixel Streaming
 
-1. Launch the Unreal Editor.
-2. Clone this repo `git clone https://github.com/ScalablePixelStreaming/Demo.git`.
-3. Open the VehicleTouch50.uproject file in the editor. The project is already set up with the Pixel Streaming plugin enabled.
-4. If your target platform is Linux, the project is ready for packaging out of the box. Follow the steps in the [official UE documentation](https://dev.epicgames.com/documentation/en-us/unreal-engine/packaging-unreal-engine-projects?application_version=5.3) to package the project.
-5. If your target is Windows and your chosen cloud platform supports Windows containers, refer to [our documentation](https://docs.scalablestreaming.io/) for detailed information on preparing your Windows UE project, as there are additional mandatory steps.
-6. Once your project is packaged for your target platform, you are ready to deploy it to your SPS formation.
-7. If your cloud platform supports creating versions from a compressed UE project, create a `.zip` archive and [upload it directly via the CLI tool or dashboard](
-https://docs.scalablestreaming.io/getting-started/deploying).
-8. If your cloud platform doesn't support creating versions from a compressed UE project, use our Image Builder Tool to [create a container image suitable for deploying on SPS](
-https://docs.scalablestreaming.io/getting-started/building-container).
-9. [Create a version](https://docs.scalablestreaming.io/getting-started/deploying) using the newly created container tag. Your application should now be ready to stream.
+Основной источник информации [официальная документация](https://dev.epicgames.com/documentation/en-us/unreal-engine/pixel-streaming-in-unreal-engine)
 
-Refer to our documentation for a more detailed look into Scalable Streaming entities hierarchy and step-by-step deployment guides.
+## Сборка проекта
 
-## Legal
+1. Клонировать [репозиторий](https://github.com/VTalyhLunas/VehicleTouch50.git)
+2. Подготовить проект к сборке выполнив в консоли команду:
+	
+	```[Путь до Unreal Engine]\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.exe -projectfiles -project="[Путь до проекта]\VehicleTouch50.uproject" -game -rocket -progress```
 
-Copyright &copy; 2021 - 2024, TensorWorks Pty Ltd. Licensed under the MIT License, see the file [LICENSE](./LICENSE) for details.
+3. Собрать проект выполнив в консоли команду:
+
+	```[Путь до Unreal Engine]/Engine/Build/BatchFiles/RunUAT.bat  -ScriptsForProject="[Путь до проекта]/VehicleTouch50.uproject" Turnkey -command=VerifySdk -platform=Win64 -UpdateIfNeeded -EditorIO -EditorIOPort=55078  -project="[Путь до проекта]/VehicleTouch50.uproject" BuildCookRun -nop4 -utf8output -nocompileeditor -skipbuildeditor -cook  -project="[Путь до проекта]/VehicleTouch50.uproject" -target=VehicleTouch50  -unrealexe="[Путь до Unreal Engine]\Engine\Binaries\Win64\UnrealEditor-Cmd.exe" -platform=Win64 -installed -stage -archive -package -build -pak -compressed -prereqs -archivedirectory="[Путь до папки сохранения результата]" -clientconfig=Shipping -nodebuginfo -nocompile -nocompileuat```
+
+4. В *[Путь до папки сохранения результата]* после успешной сборки будет находится собранный проект.
+5. Для запуска проекта с Pixel Streaming необходмо запустить исполняемый файл с параметрами:
+
+	```VehicleTouch50.exe -PixelStreamingURL=ws://127.0.0.1:8888 -RenderOffScreen```
